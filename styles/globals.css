@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .normalLink {
+    @apply flex items-center gap-3 hover:bg-primary p-3 justify-center xl:justify-start cursor-pointer font-semibold rounded;
+  }
+
+  .topicStyle {
+    @apply xl:border-2 hover:bg-gray-200 xl:border-gray-300 px-3 py-2 rounded xl:rounded-full flex items-center gap-2 justify-center cursor-pointer text-black;
+  }
+  .activeTopicStyle {
+    @apply xl:border-2 hover:bg-gray-200 xl:border-[#F51997] px-3 py-2 rounded xl:rounded-full flex items-center gap-2 justify-center cursor-pointer text-[#F51997];
+  }
+}
+
 html,
 body {
   padding: 0;
