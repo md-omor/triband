@@ -14,24 +14,12 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   if (isSSR) return null;
 
-  const a = 5;
-  const b = {
-    b: 1,
-    c: {
-      d: {
-        a: 5,
-      },
-    },
-  };
-
-  const { c: { d: { a: result } = {} } = {} } = b;
-  console.log(result);
-
   return (
     <GoogleOAuthProvider
       clientId={`${process.env.NEXT_PUBLIC_GOOGLE_API_TOKEN}`}
     >
       <Navbar />
+
       <div className="flex gap-6 md:gap-20">
         <div className="h-[92vh] overflow-hidden  xl:hover:overflow-auto">
           <Sidebar />
