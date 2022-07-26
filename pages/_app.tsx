@@ -1,3 +1,4 @@
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import type { AppProps } from "next/app";
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
@@ -13,8 +14,23 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   if (isSSR) return null;
 
+  const a = 5;
+  const b = {
+    b: 1,
+    c: {
+      d: {
+        a: 5,
+      },
+    },
+  };
+
+  const { c: { d: { a: result } = {} } = {} } = b;
+  console.log(result);
+
   return (
-    <div className="">
+    <GoogleOAuthProvider
+      clientId={`${process.env.NEXT_PUBLIC_GOOGLE_API_TOKEN}`}
+    >
       <Navbar />
       <div className="flex gap-6 md:gap-20">
         <div className="h-[92vh] overflow-hidden  xl:hover:overflow-auto">
@@ -24,7 +40,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </div>
       </div>
-    </div>
+    </GoogleOAuthProvider>
   );
 }
 
