@@ -1,6 +1,10 @@
 import { SanityAssetDocument } from "@sanity/client";
+import axios from "axios";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import useAuthStore from "../store/authStore";
+import { BASE_URL } from "../utils";
 import { client } from "../utils/client";
 import { topics } from "../utils/constants";
 
@@ -11,6 +15,13 @@ const Upload = () => {
   >();
   const [wrongFileType, setWrongFileType] = useState<Boolean>(false);
   const [topic, setTopic] = useState<String>(topics[0].name);
+  const [caption, setcaption] = useState("");
+  const [category, setcategory] = useState(topics[0].name);
+  const [savingPost, setsavingPost] = useState(false);
+
+  const { userProfile }: { userProfile: any } = useAuthStore();
+
+  const router = useRouter();
 
   const uploadVideo = async (e: any) => {
     const selectedFile = e.target.files[0];
@@ -36,9 +47,44 @@ const Upload = () => {
     }
   };
 
+  const handlePost = async () => {
+    if (caption && videoAsset?._id && topic) {
+      setsavingPost(true);
+
+      const doc = {
+        _type: "post",
+        caption,
+        video: {
+          _type: "file",
+          asset: {
+            _type: "reference",
+            _ref: videoAsset?._id,
+          },
+        },
+        userId: userProfile?._id,
+        postedBy: {
+          _type: "postedBy",
+          _ref: userProfile?._id,
+        },
+        topic,
+      };
+
+      await axios.post(`${BASE_URL}/api/post`, doc);
+
+      router.push("/");
+    }
+  };
+
+  const handleDiscard = () => {
+    setsavingPost(false);
+    setvideoAsset(undefined);
+    setcaption("");
+    setTopic("");
+  };
+
   return (
     <div className="flex w-full h-full absolute left-0 top-[60px] lg:top-[70px] mb-10 pt-10 lg:pt-20 bg-[#F8F8F8] justify-center">
-      <div className=" bg-white rounded-lg xl:h-[80vh] flex gap-6 flex-wrap justify-center items-center p-14 pt-6">
+      <div className=" bg-white rounded-lg xl:h-[80vh] w-[60%] flex gap-6 flex-wrap justify-between items-center p-14 pt-6">
         <div className="">
           <div className="">
             <p className="text-2xl font-bold">Upload Video</p>
@@ -102,18 +148,46 @@ const Upload = () => {
           <label className="text-md font-medium ">Caption</label>
           <input
             type="text"
-            value=""
-            onChange={() => {}}
+            value={caption}
+            onChange={(e) => setcaption(e.target.value)}
             className="rounded lg:after:w-650 outline-none text-md border-2 border-gray-200 p-2"
           />
-          <label className="text-md font-medium ">Choose a topic</label>
+          <label className="text-md font-medium ">Choose a Category</label>
 
           <select
             onChange={(e) => {
               setTopic(e.target.value);
             }}
             className="outline-none lg:w-650 border-2 border-gray-200 text-md capitalize lg:p-4 p-2 rounded cursor-pointer"
-          ></select>
+          >
+            {topics.map((topic) => (
+              <option
+                key={topic.name}
+                className=" outline-none capitalize bg-white text-gray-700 text-md p-2 hover:bg-slate-300"
+                value={topic.name}
+              >
+                {topic.name}
+              </option>
+            ))}
+          </select>
+
+          <div className="flex gap-6 mt-10">
+            <button
+              onClick={handleDiscard}
+              type="button"
+              className="border-gray-300 border-2 text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
+            >
+              Discard
+            </button>
+
+            <button
+              onClick={handlePost}
+              type="button"
+              className="bg-[#F51997] text-white text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
+            >
+              Post
+            </button>
+          </div>
         </div>
       </div>
     </div>
