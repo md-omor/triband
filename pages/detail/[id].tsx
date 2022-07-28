@@ -8,7 +8,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { BsFillPlayFill } from "react-icons/bs";
 import { GoVerified } from "react-icons/go";
-import { LikeButton } from "../../components/LikeButton";
+import Comment from "../../components/Comment";
+import LikeButton from "../../components/LikeButton";
 import useAuthStore from "../../store/authStore";
 import { Video } from "../../types";
 
@@ -20,10 +21,12 @@ const Detail = ({ postDetails }: IProps) => {
   const [post, setPost] = useState(postDetails);
   const [playing, setplaying] = useState(false);
   const [isVideoMuted, setisVideoMuted] = useState(false);
+  const [comment, setComment] = useState<string>("");
+  const [isPostingComment, setisPostingComment] = useState(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const router = useRouter();
-  const { userProfile } = useAuthStore();
+  const { userProfile }: any = useAuthStore();
 
   const onVideoClick = () => {
     if (playing) {
@@ -40,6 +43,40 @@ const Detail = ({ postDetails }: IProps) => {
       videoRef.current.muted = isVideoMuted;
     }
   }, [post, isVideoMuted]);
+
+  const handleDislike = () => {};
+
+  const handleLike = async (like: boolean) => {
+    if (userProfile) {
+      const { data } = await axios.put(`http://localhost:3000/api/like`, {
+        userId: userProfile._id,
+        postId: post._id,
+        like,
+      });
+      setPost({ ...post, likes: data.likes });
+    }
+  };
+
+  const addComment = async (e: any) => {
+    e.preventDefault();
+    if (userProfile && comment) {
+      setisPostingComment(true);
+
+      const { data } = await axios.put(
+        `http://localhost:3000/api/post/${post._id}`,
+        {
+          userId: userProfile._id,
+          comment,
+        }
+      );
+
+      setPost({ ...post, comments: data.comments });
+      setComment("");
+      setisPostingComment(false);
+    }
+  };
+
+  if (!post) return null;
 
   return (
     <>
@@ -120,7 +157,23 @@ const Detail = ({ postDetails }: IProps) => {
               <p className=" text-md text-gray-600">{post.caption}</p>
             </div>
 
-            <div className="mt-10 px-10">{userProfile && <LikeButton />}</div>
+            <div className="mt-10 px-10">
+              {userProfile && (
+                <LikeButton
+                  handleLike={() => handleLike(true)}
+                  handleDislike={() => handleLike(false)}
+                  likes={post.likes}
+                />
+              )}
+            </div>
+
+            <Comment
+              comment={comment}
+              setComment={setComment}
+              addComment={addComment}
+              comments={post.comments}
+              isPostingComment={isPostingComment}
+            />
           </div>
         </div>
       )}
