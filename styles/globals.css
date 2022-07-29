@@ -2,16 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Oxanium:wght@200;300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
 @layer components {
+  div {
+    @apply font-Jost font-semibold;
+  }
+
+  p {
+    @apply font-Jost font-semibold;
+  }
+
   .normalLink {
     @apply flex items-center gap-3 hover:bg-slate-200 p-3 justify-center xl:justify-start cursor-pointer font-semibold rounded;
+  }
+
+  .activeLink {
+    @apply flex items-center gap-3 hover:bg-gray-200 p-3 justify-center xl:justify-start cursor-pointer  text-[#60a5fa] rounded;
   }
 
   .topicStyle {
     @apply xl:border-2 hover:bg-gray-200 xl:border-gray-300 px-3 py-2 rounded xl:rounded-full flex items-center gap-2 justify-center cursor-pointer text-black;
   }
   .activeTopicStyle {
-    @apply xl:border-2 hover:bg-gray-200 xl:border-[#F51997] px-3 py-2 rounded xl:rounded-full flex items-center gap-2 justify-center cursor-pointer text-[#F51997];
+    @apply xl:border-2 hover:bg-gray-200 xl:border-[#60a5fa] px-3 py-2 rounded xl:rounded-full flex items-center gap-2 justify-center cursor-pointer text-[#60a5fa];
   }
 }
 

@@ -18,11 +18,9 @@ const Discover = () => {
                 topic === item.name ? "activeTopicStyle" : "topicStyle"
               }
             >
-              <span className="font-bold text-2xl xl:text-md ">
-                {item.icon}
-              </span>
+              <span className="text-xl xl:text-md ">{item.icon}</span>
               <span
-                className={`font-medium text-md hidden xl:block capitalize`}
+                className={`font-medium font-Jost text-lg hidden xl:block capitalize`}
               >
                 {item.name}
               </span>

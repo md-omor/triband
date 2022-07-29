@@ -10,7 +10,6 @@ import SuggestedAccounts from "./SuggestedAccounts";
 const Sidebar = () => {
   const [showSidebar, setshowSidebar] = useState(true);
   const { pathname } = useRouter();
-  const userProfile = false;
 
   return (
     <div>
@@ -24,11 +23,11 @@ const Sidebar = () => {
         <div className="xl:w-[400px] w-20 flex flex-col justify-start mb-10 border-r-2 border-gray-100 xl:border-0 p-3 ">
           <div className="xl:border-b-2 border-gray-200 xl:pb-4">
             <Link href="/">
-              <div className={pathname === "/" ? " activeLink" : "normalLink"}>
+              <div className={pathname === "/" ? "activeLink" : "normalLink"}>
                 <p className="text-2xl">
                   <AiFillHome />
                 </p>
-                <span className="capitalize text-xl hidden xl:block">
+                <span className="capitalize font-semibold font-Inter text-xl hidden xl:block">
                   Explore
                 </span>
               </div>

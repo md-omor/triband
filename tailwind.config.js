@@ -5,7 +5,13 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],   
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        Oxanium: ["Oxanium", "sans-serif"],
+        Jost: ["Jost", "sans-serif"],
+        Inter: ["Inter", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 }
