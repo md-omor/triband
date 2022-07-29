@@ -1,9 +1,9 @@
 import axios from "axios";
+import Head from "next/head";
 import NoResults from "../components/NoResults";
 import VideoCard from "../components/VideoCard";
 import { Video } from "../types";
 import { BASE_URL } from "../utils";
-
 interface IProps {
   videos: Video[];
 }
@@ -11,13 +11,21 @@ interface IProps {
 const Home = ({ videos }: IProps) => {
   console.log(videos);
   return (
-    <div className="flex flex-col gap-10 videos h-full">
-      {videos.length ? (
-        videos.map((video: Video) => <VideoCard post={video} key={video._id} />)
-      ) : (
-        <NoResults text={"No Videos Found"} />
-      )}
-    </div>
+    <>
+      <Head>
+        <title>Home - Triband</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <div className="flex flex-col gap-10 videos h-full">
+        {videos.length ? (
+          videos.map((video: Video) => (
+            <VideoCard post={video} key={video._id} />
+          ))
+        ) : (
+          <NoResults text={"No Videos Found"} />
+        )}
+      </div>
+    </>
   );
 };
 
