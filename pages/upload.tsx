@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import useAuthStore from "../store/authStore";
-import { BASE_URL } from "../utils";
 import { client } from "../utils/client";
 import { topics } from "../utils/constants";
 
@@ -25,7 +24,7 @@ const Upload = () => {
 
   const uploadVideo = async (e: any) => {
     const selectedFile = e.target.files[0];
-    const fileTypes = ["video/mp4", "video/wbem", "video/ogg"];
+    const fileTypes = ["video/mp4", "video/webm", "video/ogg"];
 
     // uploading asset to sanity
     if (fileTypes.includes(selectedFile.type)) {
@@ -69,7 +68,7 @@ const Upload = () => {
         topic,
       };
 
-      await axios.post(`${BASE_URL}/api/post`, doc);
+      await axios.post(`http://localhost:3000/api/post`, doc);
 
       router.push("/");
     }
