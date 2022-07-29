@@ -8,6 +8,7 @@ import NoResults from "../../components/NoResults";
 import VideoCard from "../../components/VideoCard";
 import useAuthStore from "../../store/authStore";
 import { IUser, Video } from "../../types";
+import { BASE_URL } from "../../utils";
 
 const Search = ({ videos }: { videos: Video[] }) => {
   const { userProfile, addUser, removeUser, allUsers } = useAuthStore();
@@ -94,7 +95,7 @@ export const getServerSideProps = async ({
 }: {
   params: { searchTerm: string };
 }) => {
-  const res = await axios.get(`http://localhost:3000/api/search/${searchTerm}`);
+  const res = await axios.get(`${BASE_URL}/api/search/${searchTerm}`);
 
   return {
     props: {

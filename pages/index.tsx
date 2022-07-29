@@ -2,6 +2,7 @@ import axios from "axios";
 import NoResults from "../components/NoResults";
 import VideoCard from "../components/VideoCard";
 import { Video } from "../types";
+import { BASE_URL } from "../utils";
 
 interface IProps {
   videos: Video[];
@@ -28,9 +29,9 @@ export const getServerSideProps = async ({
   let response = null;
 
   if (topic) {
-    response = await axios.get(`http://localhost:3000/api/discover/${topic}`);
+    response = await axios.get(`${BASE_URL}/api/discover/${topic}`);
   } else {
-    response = await axios.get(`http://localhost:3000/api/post`);
+    response = await axios.get(`${BASE_URL}/api/post`);
   }
 
   return {

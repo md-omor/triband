@@ -5,6 +5,7 @@ import { GoVerified } from "react-icons/go";
 import NoResults from "../../components/NoResults";
 import VideoCard from "../../components/VideoCard";
 import { IUser, Video } from "../../types";
+import { BASE_URL } from "../../utils";
 
 interface IProps {
   data: {
@@ -94,7 +95,7 @@ export const getServerSideProps = async ({
 }: {
   params: { id: string };
 }) => {
-  const res = await axios.get(`http://localhost:3000/api/profile/${id}`);
+  const res = await axios.get(`${BASE_URL}/api/profile/${id}`);
 
   return {
     props: {

@@ -12,6 +12,7 @@ import Comment from "../../components/Comment";
 import LikeButton from "../../components/LikeButton";
 import useAuthStore from "../../store/authStore";
 import { Video } from "../../types";
+import { BASE_URL } from "../../utils";
 
 interface IProps {
   postDetails: Video;
@@ -48,7 +49,7 @@ const Detail = ({ postDetails }: IProps) => {
 
   const handleLike = async (like: boolean) => {
     if (userProfile) {
-      const { data } = await axios.put(`http://localhost:3000/api/like`, {
+      const { data } = await axios.put(`${BASE_URL}/api/like`, {
         userId: userProfile._id,
         postId: post._id,
         like,
@@ -62,13 +63,10 @@ const Detail = ({ postDetails }: IProps) => {
     if (userProfile && comment) {
       setisPostingComment(true);
 
-      const { data } = await axios.put(
-        `http://localhost:3000/api/post/${post._id}`,
-        {
-          userId: userProfile._id,
-          comment,
-        }
-      );
+      const { data } = await axios.put(`${BASE_URL}/api/post/${post._id}`, {
+        userId: userProfile._id,
+        comment,
+      });
 
       setPost({ ...post, comments: data.comments });
       setComment("");
@@ -186,7 +184,7 @@ export const getServerSideProps = async ({
 }: {
   params: { id: string };
 }) => {
-  const res = await axios.get(`http://localhost:3000/api/post/${id}`);
+  const res = await axios.get(`${BASE_URL}/api/post/${id}`);
 
   return {
     props: { postDetails: res.data },
