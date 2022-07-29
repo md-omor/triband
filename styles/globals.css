@@ -4,7 +4,7 @@
 
 @layer components {
   .normalLink {
-    @apply flex items-center gap-3 hover:bg-gray-200 p-3 justify-center xl:justify-start cursor-pointer font-semibold rounded;
+    @apply flex items-center gap-3 hover:bg-slate-200 p-3 justify-center xl:justify-start cursor-pointer font-semibold rounded;
   }
 
   .topicStyle {
